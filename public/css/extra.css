@@ -1,0 +1,17 @@
+
+
+.page-not-found {
+	text-align: center !important;
+	margin-top: 60px;
+}
+
+.page-not-found h1 {
+	color: grey;
+	font-size: 20rem !important;
+	line-height: 1rem !important ;
+}
+
+.page-not-found h2 {
+	font-weight: normal !important;
+	line-height: 1rem !important;
+}

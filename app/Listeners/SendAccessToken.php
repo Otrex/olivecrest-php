@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use Mail;
 use App\Events\Token;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -17,25 +18,26 @@ class SendAccessToken
     {
         //
     }
-    public function handle(Register $event)
+    public function handle(Token $event)
     {
         $token = \App\Models\Token::updateOrCreate([
-            'user_id'=> $user->id, 
+            'user_id'=> $event->user->id, 
             'token' => rand(10000, 99999),
         ]);
 
         $details = (object) [];
         $details->subject = 'Access Token';
+        $details->to = $event->user->email;
         $details->token = $token->token;
-        $details->firstname = $event->user->profile()->firstname;
-        $details->lastname = $event->user->profile()->lastname;
+        $details->firstname = $event->user->profile->firstname;
+        $details->lastname = $event->user->profile->lastname;
 
 
         return $this->sendMail($details);
     }
 
     public function sendMail($details){
-        \Mail::to($request->to)->send(new \App\Mail\NewUserMail($details));
+        \Mail::to($details->to)->send(new \App\Mail\AccessTokenMailer($details));
 
         if (Mail::failures()) {
             return response()->json([

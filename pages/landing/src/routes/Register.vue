@@ -31,9 +31,9 @@
 			  </b-row>
 			  <div class="form-group">
 			  	<label for='formCountry'>Country: </label>
-				  <select id='formCountry'  placeholder='Please select a country of your choice' class="form-control input-lg" v-model='form.country'>
+				  <select id='formCountry' @change="phonefix($event)"  placeholder='Please select a country of your choice' class="form-control input-lg" v-model='form.country'>
 				  	<option> Please select a country of your choice </option>
-				  	<option :value='data.name' v-for='(data, i) in countrylist' :key='i'>{{data.name}}</option>
+				  	<option :value='data.name' v-for='(data, i) in countrylist' :key='i' :title='data.phone_code'>{{data.name}}</option>
 				  </select>
         	  </div>
 			  <div class="form-group">
@@ -97,9 +97,15 @@ export default {
 	},
 	created(){
 		document.body.style.overflowY = 'hidden';
-		this.countrylist = require('../utilities/countries');
+		this.countrylist = require('../utilities/xc');
 	},
 	methods : {
+		phonefix : function(e){
+			var i = e.target
+			console.log(i)
+			this.form.contact = i
+		},
+
 		isempty : function(){
 			for (let field in this.form){
 				if (!this.form[field].trim()) {
@@ -124,11 +130,11 @@ export default {
 					this.$msgalert('Sign Up Successful..Check your Email for further verification', this.$bvModal, ()=>{location.href = '/#/login'})
 					this.registered = true
 				}
-				if ('err' in reply ) this.$msgalert( reply.err , this.bvModal )
+				if ('err' in reply ) this.$msgalert( reply.err , this.$bvModal )
 
 			}).catch((e)=>{
 				loader.hideloader()
-				if (e) this.$msgalert( "Something went wrong.." , this.bvModal )
+				if (e) this.$msgalert( "Something went wrong.." , this.$bvModal )
 			})
 		}
 	}

@@ -72,6 +72,7 @@ class User extends Authenticatable
 
     public static function verifytoken($email, $token) {
         $user = User::with_email($email);
+        if (!$user->verify) return false;
         if ($user->verify->token == $token) {
             $user->is_verified = true;
             $user->verify()->delete();

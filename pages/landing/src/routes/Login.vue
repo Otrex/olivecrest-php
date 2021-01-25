@@ -68,7 +68,7 @@ export default {
 		verifyToken : function(data){
 			loader.showloader('AUTHENTICATING...')
 			axios.post('/auth/check-token', {
-				csrf_token : form.csrf_token,
+				csrf_token : this.form.csrf_token,
 				token : data.trim()
 			}).then( res => {
 				loader.hideloader()

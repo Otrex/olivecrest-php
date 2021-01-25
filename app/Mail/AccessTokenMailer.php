@@ -28,6 +28,6 @@ class AccessTokenMailer extends Mailable
      */
     public function build() {
         return $this->subject($this->details->subject)
-            ->view('emails.access.token')
+            ->view('emails.access-token', ['details'=> $this->details]);
     }
 }

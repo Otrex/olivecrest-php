@@ -21,7 +21,7 @@ class ProfileManager extends Controller {
     	// if(isset(Auth::user()->email)){
             return view("dashboard");//->with("title", Auth::user()->username);
         // } else {
-        //    return redirect("login")->with("error", "Please Login in first");
+           // return redirect("login")->with("error", "Please Login in first");
         // }
     }
 

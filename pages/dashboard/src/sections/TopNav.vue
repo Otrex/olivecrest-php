@@ -19,6 +19,7 @@
 				</b-col>
 			</b-row>
 		</b-container>
+		<div class="info-cont"><marquee> <span v-for='(info, i) in bitData' :key='i'> <b>Name:</b> {{info.name}}({{info.asset_id}}) <b>Price:</b> {{info.price_usd}} <b>Volume today:</b> {{info.volume_1hrs_usd}} | </span></marquee></div>
 		<hr/>
 	</div>
 </template>
@@ -26,6 +27,11 @@
 import { mapState } from 'vuex'
 export default {
 	name: 'TopNav',
+	data() {
+		return {
+			bitData: []
+		}
+	},
 	computed : {
 		...mapState(['profile']),
 		route: function() {
@@ -34,6 +40,16 @@ export default {
 		detail : function() {
 			return this.profile.username
 		}
+	},
+	created (){
+		axios.get('/get-coin-data')
+        .then( res => {
+            if (res.data.err) {
+                console.log("Server Error")
+                return
+            }
+            this.bitData = res.data;
+        }).catch ( err => console.log(err));
 	}
 };
 	

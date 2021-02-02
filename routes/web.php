@@ -13,9 +13,36 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// use CoinbaseCommerce\Webhook;
+// Route::post('/webhook/coinbase2', function(Request $req){
 
 
-// Route::webhooks('/webhook/coinbase/transaction/data');
+//     /**
+//      * To run this example please read README.md file
+//      * Past your Webhook Secret Key from Settings/Webhook section
+//      * Make sure you don't store your Secret Key in your source code!
+//      */
+
+//     $secret = '3637f2e9-32c7-43c4-8b3a-289ca4f9db1f';
+//     $headerName = 'X-Cc-Webhook-Signature';
+//     $headers = getallheaders();
+//     $signraturHeader = isset($headers[$headerName]) ? $headers[$headerName] : null;
+//     $payload = trim(file_get_contents('php://input'));
+
+//     try {
+//         $event = Webhook::buildEvent($payload, $signraturHeader, $secret);
+//         http_response_code(200);
+//         echo sprintf('Successully verified event with id %s and type %s.', $event->id, $event->type);
+//     } catch (\Exception $exception) {
+//         http_response_code(400);
+//         echo 'Error occured. ' . $exception->getMessage();
+//     }
+
+//         // logger(json_encode($req));
+        
+// });
+
+Route::webhooks('/webhook/coinbase/t');
 
 /* Page Routes */
 // User
@@ -48,6 +75,10 @@ Route::post('/admin/auth/login', 'App\Http\Controllers\AuthManager@login')->midd
 Route::post('/admin/auth/register', 'App\Http\Controllers\AuthManager@register')->middleware('App\Http\Middleware\Adminify');
 Route::post('/admin/auth/reset-password', 'App\Http\Controllers\AuthManager@reset_password');
 
+Route::get('/admin/dashboard', 'App\Http\Controllers\AdminManager@index');
+Route::get('/admin/users', 'App\Http\Controllers\AdminManager@users');
+Route::post('/admin/addplan', 'App\Http\Controllers\AdminManager@addplan');
+
 
 /* Dashboard Routes */
 // User
@@ -59,8 +90,7 @@ Route::get('/dashboard/profile/transactions', 'App\Http\Controllers\ProfileManag
 /* Transaction Routes */
 Route::post('/transact/create-charge', 'App\Http\Controllers\Payment@create_charge');
 
-// Admin
-Route::get('/admin/dashboard', 'App\Http\Controllers\AdminManager@index');
+
 
 /* Info Routes */
 Route::get('/investment-plans', 'App\Http\Controllers\InfoManager@plan');

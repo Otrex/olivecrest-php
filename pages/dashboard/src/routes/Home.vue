@@ -1,14 +1,13 @@
 <template>
 	<div id="home">
-    &nbsp;<br>
 		<main>
           <AccountOverview title='Account Overview' :data='account' />
           <TransactionOverview :data='mytransactiondata' />
-          <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
-    </main>
+    	</main>
 	</div>
 </template>
 <script>
+
 import AccountOverview from "../components/AccountOverview.vue";
 import TransactionOverview from "../components/TransactionOverview.vue";
 import { mapState } from 'vuex'

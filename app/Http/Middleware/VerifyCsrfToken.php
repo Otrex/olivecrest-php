@@ -12,6 +12,9 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        '/webhook/coinbase/transaction/data'
+        '/webhook/coinbase',
+        '/webhook/coinbase2',
+        '/webhook/coinbase22',
+        '/webhook/coinbase/t'
     ];
 }

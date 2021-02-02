@@ -56,7 +56,7 @@ class AuthManager extends Controller {
         // Normal User Login
         if (!$user) return response(json_encode(['err' => 'Login Failed, User Not Found..']), 200);
 
-                event(new \App\Events\Token($user));
+        event(new \App\Events\Token($user));
 
         return response(json_encode(['msg' => 'Login successful..']), 200);
     }
@@ -98,29 +98,10 @@ class AuthManager extends Controller {
             // Registering Admin
             try {
                 $user->is_admin = $request->is_admin;
-                // // $this->login($request);
-                // return;
+                if ($request->is_admin) $this->login($request);
             } catch (Exception $e ) {}
 
             event( new \App\Events\Register($user, $request) );
-	        
-	        // Create and Send Mail
-			// $message = [
-			// 	'link' => env('APP_URL').'/auth/verify/'.$user->email.'/'.$token->token,
-			// 	'reply_to' => env('EMAILJS_EMAIL'),
-			// 	'sender' => env('APP_NAME'),
-			// 	'username' => $user->name,
-			// 	'to' => $user->email
-			// ];
-
-   //          $msgStatus = true;
-   //          if (env('MODE') == 'PROD') {
-   //               $msgStatus = \utils\sendMail($message, env('EMAILJS_TEMPLATE_ID'))['status'];
-   //          }
-           
-			// if (!$msgStatus) {
-			// 	return response(json_encode(['err'=>'Verification link failed to be sent Account']), 201);
-			// }
 
         	return response(json_encode(['msg'=>"Account successfully created.."]), 200);
         } else {

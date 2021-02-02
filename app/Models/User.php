@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -80,5 +81,20 @@ class User extends Authenticatable
             return true;
         } 
         return false;
+    }
+
+    public function create_trx_notification($data) {
+        Transaction::create([
+            'user_id' => $this->id,
+            'amount' => $data->amount,
+            'type' => $data->type,
+            'status' => $data->status,
+            'currency' => $data->currency
+        ]);
+        Notification::create([
+            'message' => $data->message,
+            'time_recieved' => $data->confirmed_at,
+            'amount' => $data->ammount
+        ]);
     }
 }

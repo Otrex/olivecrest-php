@@ -20,6 +20,7 @@ class CreateInvestmentPlansTable extends Migration
             $table->string('btn_link');
             $table->string('desc');
             $table->string('feat');
+            $table->timestamps();
         });
     }
 

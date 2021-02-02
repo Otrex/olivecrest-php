@@ -13,19 +13,19 @@
         </div> 
         <div >
             <b-row>
-                <b-col cols='12' md='4'>
+                <b-col cols='12' class='pr-3' md='4'>
                     <b-card>
                         <h2>Secure Wallet</h2>
                         Trade and invest with 100% peace of mind as we have the best system security team onboard.
                     </b-card>
                 </b-col>
-                <b-col cols='12' md='4'>
+                <b-col cols='12'class='pr-3' md='4'>
                     <b-card>
                         <h2>Instant Exchange</h2>
                         See your investments turn to profit in real time. We guarantee you maximum returns on investments
                     </b-card>
                 </b-col>
-                <b-col cols='12' md='4'>
+                <b-col cols='12'class='pr-3' md='4'>
                     <b-card>
                         <h2>Expert Support</h2>
                         We provide you the standard of customer care service that cannot be matched with any other.

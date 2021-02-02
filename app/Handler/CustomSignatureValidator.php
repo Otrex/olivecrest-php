@@ -6,18 +6,20 @@ use Spatie\WebhookClient\WebhookConfig;
 use Spatie\WebhookClient\SignatureValidator\SignatureValidator;
 
 
-class CoinBaseSignature implements SignatureValidator{
+class CustomSignatureValidator implements SignatureValidator{
     public function isValid(Request $request, WebhookConfig $config): 
     bool{
-		$signature = $request->header($config->signatureHeaderName);
-		if (! $signature) {
-		return false;
-		     }
-		$signingSecret = $config->signingSecret;
+    	// var_dump($config);
+		// $signature = $request->header($config->signatureHeaderName);
+		$signature = $request->header('X-Cc-Webhook-Signature');
+		if (!$signature) {
+			return false;
+		}
+		$signingSecret = '3637f2e9-32c7-43c4-8b3a-289ca4f9db1f';
 		if (empty($signingSecret)) {
-		throw WebhookFailed::signingSecretNotSet();
-		     }
-		$computedSignature = hash_hmac('sha512', $request->getContent(), $signingSecret);
+			throw WebhookFailed::signingSecretNotSet();
+		}
+		$computedSignature = hash_hmac('sha256', $request->getContent(), $signingSecret);
 		return hash_equals($signature, $computedSignature);
 	}
 }

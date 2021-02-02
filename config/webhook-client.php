@@ -18,7 +18,7 @@ return [
             /*
              * The name of the header containing the signature.
              */
-            'signature_header_name' => 'Signature',
+            'signature_header_name' => 'X-Cc-Webhook-Signature',
 
             /*
              *  This class will verify that the content of the signature header is valid.
@@ -36,6 +36,7 @@ return [
             /*
              * This class determines the response on a valid webhook call.
              */
+            // 'webhook_response' => App\Handler\CustomResponse::class,
             'webhook_response' => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
 
             /*

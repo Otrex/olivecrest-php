@@ -5,7 +5,8 @@ Vue.use(Router);
 
 // Pages import
 import Home from "./routes/Home.vue";
-// import Login from "./routes/Login.vue";
+import Users from "./routes/Users.vue";
+import Plan from "./routes/Plan.vue";
 // import Register from "./routes/Register.vue";
 
 
@@ -14,10 +15,14 @@ const routes = [
 		path: '/',
 		component: Home
 	},
-	// {
-	// 	path: '/login',
-	// 	component: Login
-	// },
+	{
+		path: '/users',
+		component: Users
+	},
+	{
+		path: '/plans',
+		component: Plan
+	},
 	// {
 	// 	path: '/register',
 	// 	component: Register

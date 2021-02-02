@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class InvestmentPlan extends Model
 {
+	protected $fillable = [
+        'desc','name', 'percent_returns','btn_link', 'feat'
+    ];
     use HasFactory;
 }

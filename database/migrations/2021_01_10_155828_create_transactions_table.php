@@ -17,8 +17,10 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('type');
+            $table->string('currency');
+            $table->string('status');
             $table->unsignedDecimal('amount', 60, 3)->default(0.00);
-            $table->unsignedBigInteger('to');
+            $table->unsignedBigInteger('to')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

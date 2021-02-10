@@ -22,37 +22,41 @@
             </ul>
             
         
-
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Saved reports</span>
+              <span>Transaction Details</span>
               <a class="d-flex align-items-center text-muted" href="#">
                 <span data-feather="plus-circle"></span>
               </a>
             </h6>
             <ul class="nav flex-column mb-2">
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Current month
-                </a>
+                <router-link to='/withdrawals' class="nav-link" >
+                  <span data-feather="file"></span> Withdrawals
+                </router-link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Last quarter
-                </a>
+                <router-link to='/deposits' class="nav-link" >
+                  <span data-feather="file"></span> Deposits
+                </router-link>
+              </li>
+            </ul>
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>General Settings</span>
+              <a class="d-flex align-items-center text-muted" href="#">
+                <span data-feather="plus-circle"></span>
+              </a>
+            </h6>
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <router-link to='/gen-configuration' class="nav-link" >
+                  <span data-feather="file"></span> General Configurations
+                </router-link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Social engagement
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Year-end sale
-                </a>
+                <router-link to='/trx-configuration' class="nav-link" >
+                  <span data-feather="file"></span> Transaction Configurations
+                </router-link>
               </li>
             </ul>
           </div>

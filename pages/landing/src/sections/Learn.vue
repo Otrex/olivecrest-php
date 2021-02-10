@@ -2,7 +2,11 @@
 	<div id="app-learn">
         <div >
             <b-row>
-                <b-col md='4'></b-col>
+                <b-col md='4'>
+                    <div class="img-holder" style="padding-top:100px; padding-bottom: 100px;">
+                        <img src="/img/bitcoin2.svg" />
+                    </div>
+                </b-col>
                 <b-col cols='12' md='8'>
                     <div class="learn">
                         <h5>Learn More About Our Packages</h5>
@@ -22,12 +26,13 @@
 export default {
     name: 'Learn',
     components: {  }
-}
+};
 
 </script>
 
 <style>
 #app-learn {
+    padding: 5rem 4%;
     text-align: left;
     font-size: 1.5rem;
     font-family: thasadith, sans-serif;
@@ -36,5 +41,6 @@ export default {
 #app-learn .learn {
     padding: 100px 1rem;
 }
+
 
 </style>

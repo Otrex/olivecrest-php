@@ -1,4 +1,7 @@
 require('./../../bootstrap')
+const loader = require('../../loader')
+loader.showloader()
+window.onload = function(e){ loader.hideloader() }
 /*--------------------------------------------------------------------------------------------*/
 // Requirements
 import Vue from 'vue'

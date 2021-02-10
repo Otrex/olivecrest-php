@@ -3,7 +3,7 @@
     <h2> Recent Transaction </h2>
     <div style="padding: 1px; overflow: hidden;">
     <b-row>
-      <b-col cols='8' class='transactions' >
+      <b-col md='8' class='transactions p-3' >
         <b-card>
           <div class="card-header">
             Overall Portfolio
@@ -13,7 +13,7 @@
         </div>
         </b-card>
       </b-col>
-      <b-col cols='4' class='accstats'>
+      <b-col md='4' class='accstats'>
         <b-card>
         <div id='achart'>
           <div class="card-header">

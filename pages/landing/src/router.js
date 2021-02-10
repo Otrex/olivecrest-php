@@ -26,6 +26,16 @@ const routes = [
 	{
 		path: '/reset-password',
 		component: ForgotPassword
+	},
+	{
+	    path: '/:pathMatch(.*)*',
+	    component: {
+	    	template : "<div class='not-found'> \
+	    			<div><img src='/img/logo4.png' /> \
+	    			<h1 style='font-size: 15rem;'> 404 </h1>\
+	    			<h4> Page Not Found </h4>\
+	    			<a href='#/'> Go Back Home </a> </div></div>"
+	    }
 	}
 ]
 

@@ -1,72 +1,55 @@
 <template>
 	<div id="investment">
-		<b-card-group class='space'>
-			<b-card header='Credit'>
-				<b-card-text>
-					This is to add more funds to your Account
-					<table>
-						<tr>
-							<td style="width: 60%;"> Bitcoin </td>
-							<td><b-button @click='show_qr("bitcoin")'> Get QR code </b-button></td>
-						</tr>
-						<tr>
-							<td> Ethereum </td>
-							<td><b-button @click='show_qr("ethereum")'> Get QR code </b-button></td>
-						</tr>
-						<tr>
-							<td> Litecoin </td>
-							<td><b-button @click='show_qr("litecoin")'> Get QR code </b-button></td>
-						</tr>
-						<tr>
-							<td> Bitcoin Cash </td>
-							<td><b-button @click='show_qr("bitcoincash")'> Get QR code </b-button></td>
-						</tr>
-						<tr>
-							<td> USDC </td>
-							<td><b-button @click='show_qr("usdc")'> Get QR code </b-button></td>
-						</tr>
-						<tr>
-							<td> DAI </td>
-							<td><b-button @click='show_qr("dai")'> Get QR code </b-button></td>
-						</tr>
-					</table>
-					<!-- <div v-if='addresses'>
-						<table border="1" style="width: 100%;"  v-for='(ad , i) in addresses' :key='i'>
+		<b-container fluid>
+			<b-row>
+				<b-col md='6' class='p-3'>
+					<b-card>
+						<div class="card-header">
+							Pay Into
+						</div>
+						<h4>This is to add more funds to your Account</h4>
+						<table>
 							<tr>
-								<td> Bitcoin </td><td> {{ad.bitcoin}} </td>
-								<td><b-button @click='show_qr("bitcoin",ad.bitcoin)'> Get QR code </b-button></td>
+								<td style="width: 60%;"> Bitcoin </td>
+								<td><b-button @click='show_qr("bitcoin")'> Get QR code </b-button></td>
 							</tr>
 							<tr>
-								<td> Ethereum </td><td> {{ad.ethereum}} </td>
-								<td><b-button @click='show_qr("ethereum", ad.ethereum)'> Get QR code </b-button></td>
+								<td> Ethereum </td>
+								<td><b-button @click='show_qr("ethereum")'> Get QR code </b-button></td>
 							</tr>
 							<tr>
-								<td> Litecoin </td><td> {{ad.litecoin}} </td>
-								<td><b-button @click='show_qr("litecoin",ad.litecoin)'> Get QR code </b-button></td>
+								<td> Litecoin </td>
+								<td><b-button @click='show_qr("litecoin")'> Get QR code </b-button></td>
 							</tr>
 							<tr>
-								<td> Bitcoin Cash </td><td> {{ad.bitcoincash}} </td>
-								<td><b-button @click='show_qr("bitcoincash",ad.bitcoincash)'> Get QR code </b-button></td>
+								<td> Bitcoin Cash </td>
+								<td><b-button @click='show_qr("bitcoincash")'> Get QR code </b-button></td>
 							</tr>
 							<tr>
-								<td> USDC </td><td> {{ad.usdc}} </td>
-								<td><b-button @click='show_qr("usdc", ad.usdc)'> Get QR code </b-button></td>
+								<td> USDC </td>
+								<td><b-button @click='show_qr("usdc")'> Get QR code </b-button></td>
 							</tr>
 							<tr>
-								<td> DAI </td><td> {{ad.dai}} </td>
-								<td><b-button @click='show_qr("dai", ad.dai)'> Get QR code </b-button></td>
+								<td> DAI </td>
+								<td><b-button @click='show_qr("dai")'> Get QR code </b-button></td>
 							</tr>
 						</table>
-					</div> -->
-				</b-card-text>
-			</b-card>
+					</b-card>
+				</b-col>
 
-			<b-card header='Debit' >
-				<b-card-text>
-					This is to add more funds to your Account
-				</b-card-text>
-			</b-card>
-		</b-card-group>
+				<b-col md='6' class='p-3'>
+					<b-card>
+						<div class="card-header">
+							Debit
+						</div>
+						<b-card-text>
+							This is to add more funds to your Account
+						</b-card-text>
+					</b-card>
+				</b-col>
+			</b-row>
+		</b-container>
+
 
 		<modal title='QR-CODE' :action='resetmodal' :control='showmodal'>
 			<div class="text-center">

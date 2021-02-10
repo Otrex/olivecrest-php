@@ -18,6 +18,8 @@ class CreateProfilesTable extends Migration
             $table->string('firstname');
             $table->string('lastname');
             $table->string('country')->nullable();
+            $table->string('referer_code')->nullable();
+            $table->string('refer_code')->nullable();
             $table->string('contact')->nullable();
             $table->string('address')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

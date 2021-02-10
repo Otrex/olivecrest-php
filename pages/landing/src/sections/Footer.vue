@@ -1,5 +1,5 @@
 <template>
-	<div id="app-foot">
+	<div id="app-footer">
         <div class='container-fluid' >
         <b-row>
             <b-col md='4'>
@@ -47,11 +47,14 @@
 export default {
     name: 'Footer',
     components: {  }
-}
+};
 
 </script>
 
 <style scoped>
+#app-footer {
+    padding: 5rem 4%;
+}
     a {
         color: white;
     }

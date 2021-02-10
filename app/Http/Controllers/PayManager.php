@@ -7,36 +7,14 @@ use CoinbaseCommerce\ApiClient;
 use CoinbaseCommerce\Resources\Charge;
 use Auth;
 
+use App\Models\User;
+use App\Models\Account;
+use App\Models\WalletRequest;
+
 class PayManager extends Controller
 {
-    //
-    public function __construct() {
-        $this->middleware(['auth', 'App\Http\Middleware\VerifyAccess']);
-    }
-
-    public function index(){
-    	if(isset(Auth::user()->email)){
-            return view("dashboard")->with("title", Auth::user()->username);
-        } else {
-           return redirect("login")->with("error", "Please Login in first");
-        }
-    }
-
-// Emb-Tools
-    public function validate_data($arr){
-		return $arr;
-	}
-
-    public function respond($msg, $errmsg='User Details not found..'){
-    	if (!$msg){
-    		return response(json_encode(['err'=> $errmsg]), 400);
-    	}
-        // var_dump($msg);
-    	return response(json_encode($msg), 200);
-    }
-
-    public function create_charge(Request $req) {
-    	ApiClient::init(env('COINBASE_API_KEY'));
+    public function createCharge(Request $req) {
+    	ApiClient::init(\utils\AppConfig::get('API_KEY'));
 		$chargeObj = new Charge(
 		    [
 		        "description" => "Olive Crest Investment",
@@ -52,11 +30,51 @@ class PayManager extends Controller
 
 		try {
 		    $chargeObj->save();
-		    // echo sprintf("Successfully created new charge with id: %s \n", $chargeObj->id);
-		   	return $this->respond(['msg' => $chargeObj->addresses]);
+		   	return $this->respond($chargeObj->addresses);
 		} catch (\Exception $exception) {
-		    // echo sprintf("Enable to create charge. Error: %s \n", $exception->getMessage());
-		    return $this->respond(['err' => $exception->getMessage()]);
+		    return $this->respond(null, $exception->getMessage());
 		}
+    }
+
+
+    // WalletRequest
+    public function getWalletRequests() {
+        return $this->respond(auth()->user()->walletRequests());
+    }
+
+    public function makeWalletRequest(Request $req){
+        $data = $this->validate_data($req->data);
+        if (isset($data['amount'])){
+            $account = auth()->user()->account;
+            if ((double) $account->total_earnings < (double) $data['amount']) return $this->respond(null, 'request not made due to insufficient amount');
+        }
+        if ($data['type'] == 'withdrawal' && $account->nxcompounded() < 29) return $this->respond(null, 401);
+        if (!WalletRequest::create($data)) return $this->respond(null, 'Request was not made Successfully');
+
+        event (new \App\Events\WalletRequester( $data ));
+        return $this->respond('Update Successful...');
+    }
+
+    public function invest(Request $req){
+        $acc = auth()->user()->account();
+
+        if ($req->amount > $acc->available_balance) return $this->respond(
+            null, 'Amount specified is greater than available balance'
+        );
+
+        $acc->available_balance -= $req->amount;
+        $acc->invested_balance += $req->amount;
+        $acc->invested_at = new DateTime("NOW")->format('Y-m-d H:i:s');;
+
+        $acc->save();
+
+        event(new \App\Events\Transactions((object) [
+            'type' => 'investment',
+            'currency' => auth()->user()->settings()->currency,
+            'status' => 'COMPLETED',
+            'amount' => $req->amount
+        ]));
+
+        return $this->respond('Investment Successful...');
     }
 }

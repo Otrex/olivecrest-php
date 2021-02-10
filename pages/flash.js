@@ -26,9 +26,7 @@ export default {
 		}
 
 		Vue.mixin({ 
-			created() {
-				console.log('Working')
-			}
+			created() {			}
 		})
 	}
 }

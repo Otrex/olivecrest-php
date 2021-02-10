@@ -33,9 +33,9 @@ export default {
 </script>
 <style scoped>
 .floater {
-	position: fixed;
+/*	position: fixed;
 	top: 50px;
-	right: -118px;
+	right: -118px;*/
 	width: 130px;
 	transition: all .3s;
 	z-index: 10;
@@ -45,7 +45,7 @@ export default {
 	background-color: orange;
 }
 .floater:hover {
-	right: 0px;
+	/*right: 0px;*/
 	background-color: rgba(0,0,0,1);
 }
 .floater-btn {

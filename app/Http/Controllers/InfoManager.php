@@ -7,27 +7,17 @@ use Illuminate\Support\Facades\Http;
 use App\Models\InvestmentPlan;
 use utils\getRequestWithHeaders as getHReq;
 
-class InfoManager extends Controller
-{
-    //
-    public function respond($msg, $errmsg='User Details not found..'){
-    	if (!$msg){
-    		return response(json_encode(['err'=> $errmsg]), 400);
-    	}
-        // var_dump($msg);
-    	return response(json_encode($msg), 200);
-    }
+class InfoManager extends Controller {
     
     public function plan(Request $req) {
-        $account = InvestmentPlan::all();
-        return $this->respond($account);
+        return $this->respond(InvestmentPlan::all());
     }
 
     public function getCoinData(Request $req){
     	$res = Http::withHeaders(['X-CoinAPI-Key' => env('COINAPI_KEY')])
     		->get('https://rest.coinapi.io/v1/assets?filter_asset_id=BTC;ETH;ltc;xrp');
     	$result = [];
-    	if ($res->failed()) return response(json_encode(['err' => 'Can"t access details now..']), 200);
+    	if ($res->failed()) return $this->respond(null, 'Can"t access details now..');
 		try {
 			foreach($res->json() as $data){
 				$coin = [ 
@@ -38,9 +28,9 @@ class InfoManager extends Controller
 				];
 				array_push($result, $coin);
 			}
-		  return response(json_encode($result), 200);
+		  return $this->respond($result);
 		} catch (HttpException $ex) {
-		  return response(json_encode(['err' => 'Can"t access details now..']), 200);
+		  return $this->respond(null, 'Can"t access details now.. '.$ex.getMessage());
 		}
     }
 }

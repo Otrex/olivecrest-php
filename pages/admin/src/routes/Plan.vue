@@ -124,4 +124,8 @@ import icon from '../components/icon'
 	.mid {
 		padding: 20px;
 	}
+	.allplans {
+		overflow-y: scroll;
+		background: whitesmoke;
+	}
 </style>

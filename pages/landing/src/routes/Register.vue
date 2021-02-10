@@ -1,17 +1,21 @@
 <template>
 	<div class="register container-fluid body-bg">
-		<nav class="" > 
-			<router-link to='/'>
-				<div class="logo">
-                    <img src='/img/logo5.png' />
-                </div>
-            </router-link>
-			<router-link to='/'> <b-icon icon="house-door-fill" style="width: 30px; height: 30px;"> </b-icon><span class='s'> Home </span></router-link>
-			<router-link to='/login'> <b-icon icon="key-fill" style="width: 30px; height: 30px;"> </b-icon><span class="s"> Log In </span></router-link>
-		</nav>
+		
 		<b-row>
-			<b-col sm='3'>&nbsp;</b-col>
-			<b-col sm='6' style='padding-top: 50px;'>
+			<b-col sm='5'>
+				<nav class="" > 
+					<router-link to='/'>
+						<div class="logo">
+		                    <img src='/img/logo5.png' />
+		                </div>
+		            </router-link>
+					<router-link to='/'> <b-icon icon="house-door-fill" style="width: 30px; height: 30px;"> </b-icon><span class='s'> Home </span></router-link>
+					<router-link to='/login'> <b-icon icon="key-fill" style="width: 30px; height: 30px;"> </b-icon><span class="s"> Log In </span></router-link>
+				</nav>
+			</b-col>
+
+
+			<b-col md='6' style='padding-top: 50px;'>
 				<h2 v-show='registered'> {{message}} </h2>
 		<div class='form mid' v-show='!registered'>
 		<form id="form" class="mid">
@@ -70,7 +74,7 @@
 		</form>
 		</div>
 		</b-col>
-		<b-col md='3'>&nbsp;</b-col>
+		<b-col md='1'>&nbsp;</b-col>
 	</b-row>
 	</div>
 </template>

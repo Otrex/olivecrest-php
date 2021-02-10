@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const path = require('path');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,11 +12,56 @@ const mix = require('laravel-mix');
  |
  */
 
+
 mix.js('pages/landing/src/main.js', 'public/js').vue()
-    .postCss('pages/landing/css/main.css', 'public/css');
+    .webpackConfig({
+         module: {
+             rules: [
+                 {
+                     test: /\.jsx?$/,
+                     exclude: /node_modules(?!\/foundation-sites)|bower_components/,
+                     use: [
+                         {
+                             loader: 'babel-loader',
+                             options: Config.babel()
+                         }
+                     ]
+                 }
+             ]
+         },
+         resolve: {
+            alias: {
+              '@': path.resolve('pages/landing/scss/')
+            }
+          }
+     })
+    .sass('pages/landing/scss/main.scss', 'public/css');
 
 mix.js('pages/dashboard/src/dash.js', 'public/js').vue()
-    .postCss('pages/dashboard/css/dash.css', 'public/css');
+	.webpackConfig({
+         module: {
+             rules: [
+                 {
+                     test: /\.jsx?$/,
+                     exclude: /node_modules(?!\/foundation-sites)|bower_components/,
+                     use: [
+                         {
+                             loader: 'babel-loader',
+                             options: Config.babel()
+                         }
+                     ]
+                 }
+             ]
+         },
+         resolve: {
+            alias: {
+              '@': path.resolve('pages/dashboard/scss/')
+            }
+          }
+     })
+	.sass('pages/dashboard/scss/dash.scss', 'public/css');
+    // .postCss('pages/dashboard/css/dash.css', 'public/css');
 
 mix.js('pages/admin/src/admin.js', 'public/js').vue()
     .postCss('pages/admin/css/admin.css', 'public/css');
+

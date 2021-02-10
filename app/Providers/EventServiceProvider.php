@@ -9,10 +9,16 @@ use Illuminate\Support\Facades\Event;
 
 use App\Events\Token;
 use App\Events\Register;
+use App\Events\WalletRequester;
+use App\Events\Transactions;
+use App\Events\PaymentConfirmed;
 
 use App\Listeners\CreateOtherFeatures;
 use App\Listeners\SendVerificationToken;
 use App\Listeners\SendAccessToken;
+use App\Listeners\SendWalletRequest;
+use App\Listeners\AddTransaction;
+use App\Listeners\SendPaymentNotification;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -30,6 +36,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        WalletRequester::class => [ SendWalletRequest::class ],
+        Transactions::class => [ AddTransaction::class ],
+        PaymentConfirmed::class => [ SendPaymentNotification::class ],
     ];
 
     /**

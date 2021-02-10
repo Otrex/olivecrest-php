@@ -33,18 +33,7 @@ class SendVerificationToken
         $details->firstname = $event->request->firstname;
         $details->lastname = $event->request->lastname;
         $details->url =  env('APP_URL') ?? 'https://362f11b13168.ngrok.io'.'/auth/verify/'.$event->user->email.'/';
-         // $message = [
-         //     'link' => $details->url,// env('APP_URL').'/auth/verify/'.$user->email.'/'.$token->token,
-         //     'reply_to' => env('EMAILJS_EMAIL'),
-         //     'sender' => env('APP_NAME'),
-         //     'username' => $details->firstname, //user->name,
-         //     'to' => $event->user->email
-         //    ];
-
-         //    $msgStatus = true;
-         //    if (env('MODE') == 'PROD') {
-         //         $msgStatus = \utils\sendMail($message, env('EMAILJS_TEMPLATE_ID'))['status'];
-         //    }
+        
 
         return $this->sendMail($details);
     }

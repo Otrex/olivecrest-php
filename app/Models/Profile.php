@@ -20,18 +20,6 @@ class Profile extends Model
     	if ($field == 'id') {
     		$field = 'user_id';
     	}
-    	return Profile::where($field, $user[$type])->first();
-    }
-
-    public static function updateInfo($user, $data){
-    	$p = Profile::with_($user, 'id');
-    	if (!$p){
-    		return false;
-    	}
-    	foreach($data as $key => $value){
-    		$p[$key] = $value;
-    	}
-    	$p->save();
-    	return true;
+    	return self::where($field, $user[$type])->first();
     }
 }

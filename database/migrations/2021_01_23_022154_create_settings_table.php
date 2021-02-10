@@ -15,7 +15,12 @@ class CreateSettingsTable extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('wallet_api_key');
+            $table->boolean('CHECK_EMAIL')->default(True);
+            $table->string('API_KEY')->nullable();
+            $table->string('APP_EMAIL')->nullable();
+            $table->string('WEBHOOK_SECRET')->nullable();
+            $table->integer('MAX_PERCENTAGE_WITHDRAWAL');
+            $table->integer('COMMISSION');
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@
 		<h1 > User Profile </h1>
 		<b-container fluid>
 			<b-row>
-				<b-col cols='12' md='4' class='pr-3'>
+				<b-col cols='12' md='4' class='p-3'>
 					<b-card class='text-center'>
 						<div class="img-container">
 							<img src='#' />

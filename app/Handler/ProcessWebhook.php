@@ -10,8 +10,8 @@ class ProcessWebhook extends ProcessWebhookJob
 {
 	public function handle(){
 	       $data = json_decode($this->webhookCall, true);
-	       // $this->check_type($data);
-	       logger($data);
+	       $this->check_type($data);
+	       if (env('MODE') == 'DEV') logger($data);
 	       http_response_code(200); //Acknowledge you received the response
 	}
 
@@ -47,7 +47,44 @@ class ProcessWebhook extends ProcessWebhookJob
 
 		if (empty($meta)) {
 			$meta['email'] = 'obisiket@gmail.com';
-			// return;
+			logger('No Email in metaData')
+		}
+		$payment = $data['payments'][0];
+
+		$payment_details = (object) [
+			'type' => 'credit',
+			'message' => 'RESOLVED',
+			'status' => $payments['status'],
+			'detected_at' => $payments['detected_at'],
+			'currency' => $payments['crypto']['currency'],
+			'amount' => $payments['crypto']['amount'],
+			'transaction_id' =>$payments['transaction_id'] ,
+			'confirmed_at' => $data['data']['timeline'][3]['time']
+		];
+
+		if (in_array('email', $meta)) {
+			User::with_email($meta['email'])
+			->create_trx_notification($payment_details)
+			->update_account($payment_details);
+
+			event(new PaymentConfirmed($payment_details));
+		}	
+	}
+
+	public function charge_created($data) {
+	}
+
+	public function charge_delayed($data) {
+	}
+
+	public function charge_failed($data) {
+		// Failed trasaction would be stored in the junkTransaction
+		if (empty($data)) return;
+		$meta = $data['metadata'];
+
+		if (empty($meta)) {
+			$meta['email'] = 'obisiket@gmail.com';
+			logger('No Email in metaData')
 		}
 		$payment = $data['payments'][0];
 
@@ -68,16 +105,6 @@ class ProcessWebhook extends ProcessWebhookJob
 
 			event(new PaymentConfirmed($payment_details));
 		}	
-	}
-
-	public function charge_created($data) {
-	}
-
-	public function charge_delayed($data) {
-	}
-
-	public function charge_failed($data) {
-		// Failed trasaction would be stored in the junkTransaction
 	}
 
 	public function charge_pending($data) {

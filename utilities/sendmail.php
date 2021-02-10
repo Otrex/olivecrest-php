@@ -2,7 +2,37 @@
 
 namespace utils;
 use Illuminate\Support\Facades\Http;
+use App\Models\Setting;
 
+
+/**
+ * 
+ */
+class AppConfig
+{
+	private static $instance = null;
+	private static function all(){
+		if (self::$instance == null) self::$instance = Settings::find(1);
+		return self::$instance;
+	}
+	public static function get($feature) {
+		if ($feature='*') return self::all();
+		try {
+			return self::$instance->$feature;
+		} catch (Exception $e){
+			throw new Exception("$feature is not a feature of this settings", 1);
+		}
+	}
+	public static function update($updates = null){
+		self::all();
+		if ($updates) self::$instance->update($updates);
+		self::$instance = Settings::find(1);
+	}
+}
+
+function Settings(){
+	$GLOBALS['variable'] = something;
+} 
 
 function postRequest($url, $body){
 	$res = Http::post($url, $body);

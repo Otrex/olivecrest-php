@@ -7,11 +7,11 @@
                    <h1>Get max profit<br>from your Investment</h1>
                    <h3 class="header2">Trade with confidence with one of the worlds best crypto investment Company</h3>
                    <br>
-                   <router-link to='/signup' class='action-btn left'  > Get Started Now </router-link>
+                   <router-link to='/register' class='action-btn left'  > Get Started Now </router-link>
                  </div>
                 </b-col>
                 <b-col cols='12' md='6' class='img-cont ' >
-                  <img src="/img/crypto1.svg" class="img-fluid">
+                  <b-img-lazy src="/img/crypto1.svg" class="img-fluid"></b-img-lazy>
                 </b-col>
             </b-row>
     </div>
@@ -62,6 +62,7 @@ export default {
 .header-text {
   /*position: absolute;
   bottom: 20vh;*/
+  padding-top: 5rem;
   padding-left: 30px;
   margin: auto 0px;
 }

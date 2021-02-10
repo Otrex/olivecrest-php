@@ -44,8 +44,8 @@
 
                 <b-col cols='6' md='3' >
                   <div class="nbtn-container">
-                  <a href="#/login" class="nbtn login"> Login </a>
-                  <a href="#/register" class="nbtn signup"> Sign-Up </a>
+                  <a href="#/login" :class="{ 'nbtn login': true, 'login-dark': showNavbar }"> Login </a>
+                  <a href="#/register" :class="{ 'nbtn signup': true, 'signup-dark': showNavbar }"> Sign-Up </a>
                   </div>
                 </b-col>
                 
@@ -123,7 +123,19 @@ nav {
 .nav-sections {
   margin-top: 6px;
 }
-
+.login-dark {
+  color: rgb(20,20,20) !important;
+  border-color: rgb(20,20,20) !important;
+}
+.signup-dark {
+  background: rgba(255 ,165 ,0 ,0.1) !important;
+  padding: 4px 15px;
+  border-color: rgba(255 ,165 ,0 ,0.1) !important;
+}
+.login-dark:hover {
+  color: orange !important;
+  border: orange !important;
+}
 .nav-sections li {
   display: inline-block;
   margin-right: 5px;
@@ -132,9 +144,9 @@ nav {
   margin-right: 0px;
 }
 .nav--hidden {
-  box-shadow: 2px 0px 5px grey;
+  box-shadow: 2px 0px 15px rgba(0,0,0,.1);
   transform: translateY(-20px);
-  background-color: orange;
+  background: orange;/*linear-gradient(orange, rgba(255 ,165 ,0 ,0.5), rgba(255,255,255,.0));*/
   padding-bottom: .5rem;
 }
 .nav--hidden ul li a:hover {

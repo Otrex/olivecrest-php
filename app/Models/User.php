@@ -46,6 +46,13 @@ class User extends Authenticatable
     public function account(){
         return $this->hasOne('App\Models\Account');
     }
+    public function setting(){
+        return $this->hasOne('App\Models\UserSetting');
+    }
+
+    public function walletRequests(){
+        return $this->hasMany('App\Models\walletRequest');
+    }
 
     public function profile() {
         return $this->hasOne('App\Models\Profile');
@@ -96,5 +103,11 @@ class User extends Authenticatable
             'time_recieved' => $data->confirmed_at,
             'amount' => $data->ammount
         ]);
+        return $this;
+    }
+    public function update_account ($data) {
+        $account = $this->account();
+        $account->available_balance += $data->amount;
+        $account->save();
     }
 }

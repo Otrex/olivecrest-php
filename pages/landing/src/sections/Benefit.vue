@@ -35,12 +35,11 @@
 export default {
     name: 'Benefit',
     components: {  }
-}
-
+};
 </script>
 
 <style>
 #app-benefit {
-
+    padding: 5rem 4%;
 }
 </style>

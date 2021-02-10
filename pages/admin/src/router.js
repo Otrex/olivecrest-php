@@ -7,6 +7,7 @@ Vue.use(Router);
 import Home from "./routes/Home.vue";
 import Users from "./routes/Users.vue";
 import Plan from "./routes/Plan.vue";
+import GenConfiguration from "./routes/GenConfiguration.vue";
 // import Register from "./routes/Register.vue";
 
 
@@ -22,6 +23,10 @@ const routes = [
 	{
 		path: '/plans',
 		component: Plan
+	},
+	{
+		path: '/gen-configuration',
+		component: GenConfiguration
 	},
 	// {
 	// 	path: '/register',

@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="header">
+      <h1> Users </h1>
+    </div>
     <h2 v-if='!users' > No User Yet </h2>
     <a href='' > Create User </a>
     <a href='' v-if='moreusers' > Next Users </a>

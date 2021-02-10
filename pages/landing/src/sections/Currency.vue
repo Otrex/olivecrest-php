@@ -48,6 +48,7 @@ export default {
 
 <style>
 #app-currency {
+    padding: 10rem 4%;
     text-align: left;
     font-size: 1.5rem;
     font-family: thasadith, sans-serif;

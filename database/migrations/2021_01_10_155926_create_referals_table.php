@@ -15,8 +15,7 @@ class CreateReferalsTable extends Migration
     {
         Schema::create('referals', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('other_id');
+            $table->string('referer_code');
             $table->string('code');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

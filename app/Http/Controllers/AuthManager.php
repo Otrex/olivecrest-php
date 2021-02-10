@@ -11,8 +11,6 @@ use Auth;
 use App\Models\Token;
 use App\Models\User;
 use App\Models\Verify;
-use App\Models\Account;
-use App\Models\Profile;
 
 class AuthManager extends Controller {
 // Landing
@@ -30,7 +28,6 @@ class AuthManager extends Controller {
 
 // Login
     public function login(Request $req){
-        // echo $req->is_admin; die();
     	$this->validate($req, [
             'email' => "required|email",
             'password' => 'required|alphaNum|min:4'
@@ -41,22 +38,15 @@ class AuthManager extends Controller {
             'password' => $req->get('password')
         ];
 
-        $userLoggin = Auth::attempt($user);
-        // $user = (object) []; $user->is_admin = true;
-        $user = User::with_email($user['email']);
-
-        // Handles Admininstration Login
-        try {
-            if ($req->is_admin) {
-                if (!$user) return page_response(false, 'Login Failed');
-                if ($user->is_admin) return $this->page_response($user, '/admin/dashboard', []);
-            }
-        } catch (Exception $e) {}
-        
-        // Normal User Login
+        $user = Auth::attempt($user);
         if (!$user) return response(json_encode(['err' => 'Login Failed, User Not Found..']), 200);
 
-        event(new \App\Events\Token($user));
+        // Handles Admininstration Login
+        if (isset($req->is_admin) && $req->is_admin) {
+            if ($user->is_admin) return $this->page_response($user, '/admin/dashboard', []);
+        }
+
+        event(new \App\Events\Token(auth()->user()));
 
         return response(json_encode(['msg' => 'Login successful..']), 200);
     }
@@ -79,12 +69,22 @@ class AuthManager extends Controller {
             'remember_token' => Str::random(40)
         ];
 
+        // Check If User Already Exists For admin
+        if ($request->is_admin) {
+            $newAdmin = User::firstOrNew(['email' => $user['email']]);
+            if (!$newAdmin) return response(json_encode(['err'=>'Failed to create Account']), 200);
+            $newAdmin->is_admin = true;
+            $newAdmin->password = $user['password'];
+            $newAdmin->save();
+            return $this->login($request);
+        }
+
         // Check If User Already Exists
         if (User::with_email($user['email'])) return response(json_encode(['err' => 'User already exists..']), 200);
 
 
         // More Validations
-        if (env('MODE') == 'PROD' && env('CHECK_EMAIL') && !$request->is_admin){
+        if (env('MODE') == 'PROD' && \utils\AppConfig::get('CHECK_EMAIL') && !$request->is_admin){
             if (!\utils\verifyEmail($user['email'])){
             	return response(json_encode(['err'=>$user['email'].' Email Not valid..']), 200);
             }
@@ -94,34 +94,36 @@ class AuthManager extends Controller {
         if (User::create($user)){
         	$user = User::with_email($user['email']);
             $user->token = \utils\genV();
-
-            // Registering Admin
-            try {
-                $user->is_admin = $request->is_admin;
-                if ($request->is_admin) $this->login($request);
-            } catch (Exception $e ) {}
-
             event( new \App\Events\Register($user, $request) );
-
         	return response(json_encode(['msg'=>"Account successfully created.."]), 200);
         } else {
-        	return response(json_encode(['err'=>'Failed to create Account']), 400);
+        	return response(json_encode(['err'=>'Failed to create Account']), 200);
         }
     }
 
 // Password Reset
-    public function reset_password(Request $req) {
+    public function send_token(Request $req, $email) {
+        $user = auth()->user() ?? User::with_email($email);
+        event (new \App\Events\Token($user));
+        return response(json_encode(['msg'=>'Token sent']));
+    }
+
+    public function reset_password(Request $req, $email) {
     	$this->validate($req, [
     		'token' => 'required|min:4',
             'password' => 'required|alphaNum|min:4',
             'rpassword' => 'required|alphaNum|min:4'
     	]);
 
+        $user = User::with_email($email);
+        if (!$user) return $this->respond(null, 'This User can\'t be found..');
+
     	if ($req->get('password') != $req->get('rpassword')){
     		return response(json_encode(['err'=> 'Password Does not match']), 400);
     	}
 
-        $verified = Token::verify($req->user_id, $req->get('token'));
+        $verified = Token::verify($user->id, $req->get('token'));
+
         if (!$verified) { return response(json_encode(['err'=>'Invalid Token']), 200);}
         $verified->password = Hash::make($request->get('password'));
         $verified->save();
@@ -137,9 +139,6 @@ class AuthManager extends Controller {
         ]);
     }
 
-    public function send_token(Request $req) {
-        return response(json_encode(['msg'=>'Token sent']));
-    }
 
     public function check_access_token(Request $req){
         $user = Token::verify(Auth::user()->id, $req->get('token'));

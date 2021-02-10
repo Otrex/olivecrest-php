@@ -9,6 +9,7 @@
 
 
 @section('body')
+	<script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js"></script>
     {{ csrf_field() }}
 @endsection
 
